@@ -1,0 +1,13 @@
+
+*.o
+
+# create files
+/bonus
+/test
+
+# log files
+leaks.log
+
+# installed files
+srcs/includes
+srcs/libs
