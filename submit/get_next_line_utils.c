@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 19:20:35 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/04/21 15:24:22 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/04/21 15:36:34 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 static char	*ft_gnl_cut(t_gnl_mem *mem);
 static void	*ft_memmove(void *dest, const void *src, size_t n);
 static int	read_line(int fd, t_gnl_mem *mem);
-static int	reallocate_for_read(t_gnl_mem *mem);
 
 char	*get_next_line(int fd)
 {
@@ -105,26 +104,6 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 int	read_line(int fd, t_gnl_mem *mem)
 {
 	ssize_t	read_len;
-	int		index;
-
-	if (reallocate_for_read(mem) == -1)
-		return (-1);
-	read_len = read(fd, mem->data + mem->size, BUFFER_SIZE);
-	if (read_len < 0)
-		return (read_len);
-	mem->size += read_len;
-	index = 0;
-	while (index < read_len)
-	{
-		if (mem->data[mem->size - read_len + index] == '\n')
-			mem->line_cnt += 1;
-		index++;
-	}
-	return (read_len);
-}
-
-int	reallocate_for_read(t_gnl_mem *mem)
-{
 	char	*tmp;
 
 	if (mem->size + BUFFER_SIZE > mem->max_size)
@@ -137,5 +116,14 @@ int	reallocate_for_read(t_gnl_mem *mem)
 		free(mem->data);
 		mem->data = tmp;
 	}
-	return (0);
+	read_len = read(fd, mem->data + mem->size, BUFFER_SIZE);
+	if (read_len <= 0)
+		return (read_len);
+	mem->size += read_len;
+	while (read_len > 0)
+	{
+		if (mem->data[mem->size - read_len--] == '\n')
+			mem->line_cnt += 1;
+	}
+	return (1);
 }
