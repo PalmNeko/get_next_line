@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tookuyam <tookuyam@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tookuyam <tookuyam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 18:09:06 by tookuyam          #+#    #+#             */
-/*   Updated: 2023/11/04 12:41:07 by tookuyam         ###   ########.fr       */
+/*   Created: 2024/03/21 19:20:47 by tookuyam          #+#    #+#             */
+/*   Updated: 2024/04/21 15:07:16 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 # include <stddef.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 2
 # endif
 
-char		*get_next_line(int fd);
-char		*_get_next_line(char **str, int fd, char **leftovers);
-char		*ft_strjoin_fd(char *left, int fd, int *is_eof);
-char		*ft_substrchr(char const *str, char sep);
+typedef struct s_gnl_mem {
+	char	*data;
+	size_t	size;
+	size_t	max_size;
+	size_t	alloc_cnt;
+	size_t	line_cnt;
+}	t_gnl_mem;
 
-size_t		ft_strlenchr(char const *s, char find);
-void		*free_manager(char **str);
-char		*ft_strchr(const char *s, char find);
-char		*read_str(int fd);
+char	*get_next_line(int fd);
 
 #endif
