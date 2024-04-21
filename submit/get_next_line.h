@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 19:20:47 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/04/21 15:07:16 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/04/21 15:40:38 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ typedef struct s_gnl_mem {
 }	t_gnl_mem;
 
 char	*get_next_line(int fd);
+char	*get_next_line_mem(t_gnl_mem *mem, int fd);
 
 #endif

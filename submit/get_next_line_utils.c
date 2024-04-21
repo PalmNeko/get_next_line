@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 19:20:35 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/04/21 15:36:34 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/04/21 15:42:34 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,21 @@ static char	*ft_gnl_cut(t_gnl_mem *mem);
 static void	*ft_memmove(void *dest, const void *src, size_t n);
 static int	read_line(int fd, t_gnl_mem *mem);
 
-char	*get_next_line(int fd)
+char	*get_next_line_mem(t_gnl_mem *mem, int fd)
 {
-	static t_gnl_mem	mem;
 	ssize_t				result;
 	char				*line;
 
 	result = 0;
-	if (mem.line_cnt == 0)
+	if (mem->line_cnt == 0)
 		result = 1;
-	while (result > 0 && mem.line_cnt == 0)
-		result = read_line(fd, &mem);
+	while (result > 0 && mem->line_cnt == 0)
+		result = read_line(fd, mem);
 	if (result == -1)
-	{
-		free(mem.data);
-		mem = (t_gnl_mem){0};
 		return (NULL);
-	}
-	line = ft_gnl_cut(&mem);
+	line = ft_gnl_cut(mem);
 	if (line == NULL)
-	{
-		free(mem.data);
-		mem = (t_gnl_mem){0};
 		return (NULL);
-	}
 	return (line);
 }
 
