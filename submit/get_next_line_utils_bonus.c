@@ -6,14 +6,14 @@
 /*   By: tookuyam <tookuyam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 15:55:55 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/04/23 17:02:04 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:08:50 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 #include <stdlib.h>
 
-t_gnl_mem_lst	*gnl_get_mem(t_gnl_mem_lst **lst, int fd)
+t_gnl_mem_lst	*gnl_get_node(t_gnl_mem_lst **lst, int fd)
 {
 	t_gnl_mem_lst	*tmp;
 
@@ -40,7 +40,7 @@ t_gnl_mem_lst	*gnl_get_mem(t_gnl_mem_lst **lst, int fd)
 	return (NULL);
 }
 
-void	gnl_del_mem(t_gnl_mem_lst **lst)
+void	gnl_del_node(t_gnl_mem_lst **lst)
 {
 	t_gnl_mem_lst	*tmp;
 	int				fd;
@@ -65,24 +65,24 @@ void	gnl_del_mem(t_gnl_mem_lst **lst)
 	return ;
 }
 
-void	gnl_add_mem(t_gnl_mem_lst **root, t_gnl_mem_lst *new)
+void	gnl_add_node(t_gnl_mem_lst **node, t_gnl_mem_lst *new)
 {
-	if (*root == NULL)
+	if (*node == NULL)
 	{
-		*root = new;
+		*node = new;
 		return ;
 	}
-	if ((*root)->prev != NULL)
+	if ((*node)->prev != NULL)
 	{
-		(*root)->prev->next = new;
-		new->prev = (*root)->prev;
+		(*node)->prev->next = new;
+		new->prev = (*node)->prev;
 	}
-	(*root)->prev = new;
-	new->next = *root;
-	*root = new;
+	(*node)->prev = new;
+	new->next = *node;
+	*node = new;
 }
 
-t_gnl_mem_lst	*gnl_new_mem(int fd)
+t_gnl_mem_lst	*gnl_new_node(int fd)
 {
 	t_gnl_mem_lst	*new_lst;
 
@@ -100,7 +100,7 @@ t_gnl_mem_lst	*gnl_new_mem(int fd)
 	return (new_lst);
 }
 
-void	gnl_clear_all_mem(t_gnl_mem_lst **lst)
+void	gnl_clear_all_node(t_gnl_mem_lst **lst)
 {
 	t_gnl_mem_lst	*next;
 

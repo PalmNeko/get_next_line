@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 15:55:47 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/04/21 17:22:17 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:09:11 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ struct s_gnl_mem_lst {
 char			*get_next_line(int fd);
 char			*get_next_line_mem(t_gnl_mem *mem, int fd);
 
-t_gnl_mem_lst	*gnl_get_mem(t_gnl_mem_lst **lst, int fd);
-void			gnl_del_mem(t_gnl_mem_lst **lst);
-void			gnl_add_mem(t_gnl_mem_lst **root, t_gnl_mem_lst *new);
-t_gnl_mem_lst	*gnl_new_mem(int fd);
-void			gnl_clear_all_mem(t_gnl_mem_lst **lst);
+t_gnl_mem_lst	*gnl_get_node(t_gnl_mem_lst **lst, int fd);
+void			gnl_del_node(t_gnl_mem_lst **lst);
+void			gnl_add_node(t_gnl_mem_lst **root, t_gnl_mem_lst *new);
+t_gnl_mem_lst	*gnl_new_node(int fd);
+void			gnl_clear_all_node(t_gnl_mem_lst **lst);
 
 #endif

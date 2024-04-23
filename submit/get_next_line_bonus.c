@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 21:49:59 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/04/23 17:02:44 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:09:32 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,22 @@ int		read_line(int fd, t_gnl_mem *mem);
 
 char	*get_next_line(int fd)
 {
-	static t_gnl_mem_lst	*mem;
-	t_gnl_mem_lst			*used_mem;
+	static t_gnl_mem_lst	*keep_node;
+	t_gnl_mem_lst			*use_node;
 	char					*line;
 
-	used_mem = gnl_get_mem(&mem, fd);
-	if (used_mem == NULL)
+	use_node = gnl_get_node(&keep_node, fd);
+	if (use_node == NULL)
 	{
-		used_mem = gnl_new_mem(fd);
-		if (used_mem == NULL)
+		use_node = gnl_new_node(fd);
+		if (use_node == NULL)
 			return (NULL);
-		gnl_add_mem(&mem, used_mem);
+		gnl_add_node(&keep_node, use_node);
 	}
-	line = get_next_line_mem(used_mem->mem, fd);
+	line = get_next_line_mem(use_node->mem, fd);
 	if (line == NULL)
-		gnl_del_mem(&used_mem);
-	mem = used_mem;
+		gnl_del_node(&use_node);
+	keep_node = use_node;
 	return (line);
 }
 
