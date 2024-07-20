@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tookuyam <tookuyam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 15:55:55 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/04/23 17:08:50 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/07/20 09:10:33 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,8 @@ t_gnl_mem_lst	*gnl_get_node(t_gnl_mem_lst **lst, int fd)
 void	gnl_del_node(t_gnl_mem_lst **lst)
 {
 	t_gnl_mem_lst	*tmp;
-	int				fd;
 
 	tmp = *lst;
-	fd = tmp->fd;
 	if (tmp->prev != NULL)
 		*lst = tmp->prev;
 	else if (tmp->next != NULL)
