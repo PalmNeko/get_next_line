@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 21:49:59 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/07/21 17:10:39 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:29:21 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	*get_next_line(int fd)
 	t_gnl_node		*now;
 	char			*line;
 
+	errno = 0;
 	itr = gnl_lst;
 	while (itr != NULL && ((t_gnl_node *)(itr->content))->fd != fd)
 		itr = itr->next;
@@ -44,9 +45,8 @@ char	*get_next_line(int fd)
 	line = get_next_line2(fd, &now->carry_up);
 	if (line == NULL && itr == gnl_lst)
 		gnl_lst = gnl_lst->next;
-	(line == NULL && (ft_lstdelone(itr, (t_free)gnl_del), 0));
-	(errno != 0 && (ft_lstclear(&gnl_lst, (t_free)gnl_del), 0));
-	return (line);
+	return ((line == NULL && (ft_lstdelone(itr, (t_free)gnl_del), 0)),
+		(errno != 0 && (ft_lstclear(&gnl_lst, (t_free)gnl_del), 0)), line);
 }
 
 void	gnl_del(t_gnl_node *node)
