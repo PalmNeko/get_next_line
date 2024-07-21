@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tookuyam <tookuyam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 15:55:47 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/04/23 17:09:11 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/07/21 12:37:15 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ struct s_gnl_mem_lst {
 };
 
 char			*get_next_line(int fd);
-char			*get_next_line_mem(t_gnl_mem *mem, int fd);
+char			*gnl_get_next_line_mem(t_gnl_mem *mem, int fd);
 
 t_gnl_mem_lst	*gnl_get_node(t_gnl_mem_lst **lst, int fd);
 void			gnl_del_node(t_gnl_mem_lst **lst);

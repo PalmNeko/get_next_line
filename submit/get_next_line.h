@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tookuyam <tookuyam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 19:20:47 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/04/21 15:49:57 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/07/21 12:37:15 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ typedef struct s_gnl_mem {
 }	t_gnl_mem;
 
 char	*get_next_line(int fd);
-char	*get_next_line_mem(t_gnl_mem *mem, int fd);
+char	*gnl_get_next_line_mem(t_gnl_mem *mem, int fd);
 
 #endif
