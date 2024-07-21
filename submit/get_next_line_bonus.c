@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 21:49:59 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/07/21 19:31:32 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:37:07 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,18 @@ char	*get_next_line(int fd)
 	{
 		now = (t_gnl_node *)malloc(sizeof(t_gnl_node));
 		if (now == NULL)
-			return (ft_lstclear(&gnl_lst, (t_free)gnl_del), NULL);
+			return (gnl_lstclear(&gnl_lst, (t_free)gnl_del), NULL);
 		*now = (t_gnl_node){.carry_up = NULL, .fd = fd};
-		itr = ft_lstnew(now);
-		if (itr == NULL || (ft_lstadd_back(&gnl_lst, itr), 0))
-			return (gnl_del(now), ft_lstclear(&gnl_lst, (t_free)gnl_del), NULL);
+		itr = gnl_lstnew(now);
+		if (itr == NULL || (gnl_lstadd_back(&gnl_lst, itr), 0))
+			return (gnl_del(now), gnl_lstclear(&gnl_lst, (t_free)gnl_del), NULL);
 	}
 	now = itr->content;
 	line = get_next_line2(fd, &now->carry_up);
 	if (line == NULL && itr == gnl_lst)
 		gnl_lst = gnl_lst->next;
-	return ((line == NULL && (ft_lstdelone(itr, (t_free)gnl_del), 0)),
-		(errno != 0 && (ft_lstclear(&gnl_lst, (t_free)gnl_del), 0)), line);
+	return ((line == NULL && (gnl_lstdelone(itr, (t_free)gnl_del), 0)),
+		(errno != 0 && (gnl_lstclear(&gnl_lst, (t_free)gnl_del), 0)), line);
 }
 
 void	gnl_del(t_gnl_node *node)

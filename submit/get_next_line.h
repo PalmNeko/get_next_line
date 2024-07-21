@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 19:20:47 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/07/21 16:46:20 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:37:28 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ char	*get_next_line(int fd);
 char	*get_next_line2(int fd, char **carry_up);
 
 void	*gnl_memmove(void *dest, const void *src, size_t n);
-void	ft_lstadd_back(t_list **lst, t_list *new);
-void	ft_lstclear(t_list **lst, void (*del)(void *));
-void	ft_lstdelone(t_list *lst, void (*del)(void *));
-t_list	*ft_lstnew(void *content);
+void	gnl_lstadd_back(t_list **lst, t_list *new);
+void	gnl_lstclear(t_list **lst, void (*del)(void *));
+void	gnl_lstdelone(t_list *lst, void (*del)(void *));
+t_list	*gnl_lstnew(void *content);
 
 #endif

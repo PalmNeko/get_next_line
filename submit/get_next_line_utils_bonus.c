@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 14:51:45 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/07/21 19:31:17 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:37:07 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	*gnl_memmove(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	gnl_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*last_list;
 
@@ -61,7 +61,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	return ;
 }
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+void	gnl_lstclear(t_list **lst, void (*del)(void *))
 {
 	t_list	*itr;
 	t_list	*free_lst;
@@ -83,14 +83,14 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 	{
 		free_lst = itr;
 		itr = itr->next;
-		ft_lstdelone(free_lst, del);
+		gnl_lstdelone(free_lst, del);
 	}
-	ft_lstdelone(start, del);
+	gnl_lstdelone(start, del);
 	*lst = NULL;
 	return ;
 }
 
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
+void	gnl_lstdelone(t_list *lst, void (*del)(void *))
 {
 	if (lst == NULL)
 		return ;
@@ -102,7 +102,7 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *))
 	free(lst);
 }
 
-t_list	*ft_lstnew(void *content)
+t_list	*gnl_lstnew(void *content)
 {
 	t_list	*new;
 
