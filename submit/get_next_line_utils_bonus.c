@@ -5,112 +5,114 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/21 15:55:55 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/07/20 09:10:33 by tookuyam         ###   ########.fr       */
+/*   Created: 2024/07/21 14:51:45 by tookuyam          #+#    #+#             */
+/*   Updated: 2024/07/21 19:31:17 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+#include <stddef.h>
 #include <stdlib.h>
 
-t_gnl_mem_lst	*gnl_get_node(t_gnl_mem_lst **lst, int fd)
+void	*gnl_memmove(void *dest, const void *src, size_t n)
 {
-	t_gnl_mem_lst	*tmp;
+	unsigned char		*d;
+	const unsigned char	*s;
+	size_t				index;
 
-	tmp = *lst;
-	while (tmp != NULL)
+	d = dest;
+	s = src;
+	if (d < s)
 	{
-		if (tmp->fd == fd)
+		index = 0;
+		while (index < n)
 		{
-			*lst = tmp;
-			return (tmp);
+			d[index] = s[index];
+			index++;
 		}
-		tmp = tmp->next;
 	}
-	tmp = *lst;
-	while (tmp != NULL)
+	else if (d > s)
 	{
-		if (tmp->fd == fd)
+		index = n;
+		while (index > 0)
 		{
-			*lst = tmp;
-			return (tmp);
+			d[index - 1] = s[index - 1];
+			index--;
 		}
-		tmp = tmp->prev;
 	}
-	return (NULL);
+	return (dest);
 }
 
-void	gnl_del_node(t_gnl_mem_lst **lst)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_gnl_mem_lst	*tmp;
+	t_list	*last_list;
 
-	tmp = *lst;
-	if (tmp->prev != NULL)
-		*lst = tmp->prev;
-	else if (tmp->next != NULL)
-		*lst = tmp->next;
-	else
-		*lst = NULL;
-	if (tmp == NULL)
+	if (*lst == NULL)
+	{
+		*lst = new;
 		return ;
-	if (tmp->prev != NULL)
-		tmp->prev->next = tmp->next;
-	if (tmp->next != NULL)
-		tmp->next->prev = tmp->prev;
-	free(tmp->mem->data);
-	free(tmp->mem);
-	free(tmp);
+	}
+	last_list = *lst;
+	while (last_list->next != NULL)
+		last_list = last_list->next;
+	new->next = last_list->next;
+	new->prev = last_list;
+	last_list->next = new;
 	return ;
 }
 
-void	gnl_add_node(t_gnl_mem_lst **node, t_gnl_mem_lst *new)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	if (*node == NULL)
-	{
-		*node = new;
+	t_list	*itr;
+	t_list	*free_lst;
+	t_list	*start;
+
+	if (lst == NULL || *lst == NULL)
 		return ;
-	}
-	if ((*node)->prev != NULL)
+	itr = (*lst);
+	if (itr->prev != NULL)
 	{
-		(*node)->prev->next = new;
-		new->prev = (*node)->prev;
+		itr = itr->prev;
+		itr->next->prev = NULL;
 	}
-	(*node)->prev = new;
-	new->next = *node;
-	*node = new;
-}
-
-t_gnl_mem_lst	*gnl_new_node(int fd)
-{
-	t_gnl_mem_lst	*new_lst;
-
-	new_lst = (t_gnl_mem_lst *)malloc(sizeof(t_gnl_mem_lst));
-	if (new_lst == NULL)
-		return (NULL);
-	new_lst->mem = (t_gnl_mem *)malloc(sizeof(t_gnl_mem));
-	if (new_lst->mem == NULL)
-		return (free(new_lst), NULL);
-	*new_lst->mem = (t_gnl_mem){
-		.alloc_cnt = 0, .data = NULL, .line_cnt = 0, .max_size = 0, .size = 0};
-	new_lst->fd = fd;
-	new_lst->next = NULL;
-	new_lst->prev = NULL;
-	return (new_lst);
-}
-
-void	gnl_clear_all_node(t_gnl_mem_lst **lst)
-{
-	t_gnl_mem_lst	*next;
-
-	while (*lst != NULL && (*lst)->prev != NULL)
-		*lst = (*lst)->prev;
-	while (*lst != NULL)
+	while (itr->prev != NULL)
+		itr = itr->prev;
+	start = itr;
+	itr = itr->next;
+	while (itr != NULL && itr != start)
 	{
-		next = (*lst)->next;
-		free((*lst)->mem->data);
-		free((*lst)->mem);
-		free(*lst);
-		*lst = next;
+		free_lst = itr;
+		itr = itr->next;
+		ft_lstdelone(free_lst, del);
 	}
+	ft_lstdelone(start, del);
 	*lst = NULL;
+	return ;
+}
+
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
+{
+	if (lst == NULL)
+		return ;
+	if (lst->prev != NULL)
+		lst->prev->next = lst->next;
+	if (lst->next != NULL)
+		lst->next->prev = lst->prev;
+	del(lst->content);
+	free(lst);
+}
+
+t_list	*ft_lstnew(void *content)
+{
+	t_list	*new;
+
+	new = (t_list *)malloc(sizeof(t_list));
+	if (new == NULL)
+		return (NULL);
+	*new = (t_list){
+		.content = content,
+		.next = NULL,
+		.prev = NULL
+	};
+	return (new);
 }

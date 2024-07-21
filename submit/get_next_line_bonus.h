@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/21 15:55:47 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/07/21 12:37:15 by tookuyam         ###   ########.fr       */
+/*   Created: 2024/03/21 19:20:47 by tookuyam          #+#    #+#             */
+/*   Updated: 2024/07/21 19:31:44 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,32 +16,31 @@
 # include <stddef.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 2
+#  define BUFFER_SIZE 10
 # endif
 
-typedef struct s_gnl_mem {
-	char	*data;
-	size_t	size;
-	size_t	max_size;
-	size_t	alloc_cnt;
-	size_t	line_cnt;
-}	t_gnl_mem;
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+	struct s_list	*prev;
+}	t_list;
 
-typedef struct s_gnl_mem_lst	t_gnl_mem_lst;
-struct s_gnl_mem_lst {
-	int				fd;
-	t_gnl_mem		*mem;
-	t_gnl_mem_lst	*next;
-	t_gnl_mem_lst	*prev;
-};
+typedef struct s_gnl_node
+{
+	int		fd;
+	char	*carry_up;
+}	t_gnl_node;
 
-char			*get_next_line(int fd);
-char			*gnl_get_next_line_mem(t_gnl_mem *mem, int fd);
+typedef void	(*t_free)(void *);
 
-t_gnl_mem_lst	*gnl_get_node(t_gnl_mem_lst **lst, int fd);
-void			gnl_del_node(t_gnl_mem_lst **lst);
-void			gnl_add_node(t_gnl_mem_lst **root, t_gnl_mem_lst *new);
-t_gnl_mem_lst	*gnl_new_node(int fd);
-void			gnl_clear_all_node(t_gnl_mem_lst **lst);
+char	*get_next_line(int fd);
+char	*get_next_line2(int fd, char **carry_up);
+
+void	*gnl_memmove(void *dest, const void *src, size_t n);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstclear(t_list **lst, void (*del)(void *));
+void	ft_lstdelone(t_list *lst, void (*del)(void *));
+t_list	*ft_lstnew(void *content);
 
 #endif
