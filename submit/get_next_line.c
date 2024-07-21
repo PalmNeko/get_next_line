@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 21:49:59 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/07/21 15:35:39 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:10:39 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,47 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <errno.h>
 
 static char	*gnl_cut(char *buf, size_t *size);
 static int	gnl_read_line(int fd, char **buf, size_t *size, size_t *max_size);
+static void	gnl_del(t_gnl_node *node);
 
 char	*get_next_line(int fd)
 {
-	static char	*carry_up;
+	static t_list	*gnl_lst;
+	t_list			*itr;
+	t_gnl_node		*now;
+	char			*line;
 
-	return (get_next_line2(fd, &carry_up));
+	itr = gnl_lst;
+	while (itr != NULL && ((t_gnl_node *)(itr->content))->fd != fd)
+		itr = itr->next;
+	if (itr == NULL)
+	{
+		now = (t_gnl_node *)malloc(sizeof(t_gnl_node));
+		if (now == NULL)
+			return (ft_lstclear(&gnl_lst, (t_free)gnl_del), NULL);
+		*now = (t_gnl_node){.carry_up = NULL, .fd = fd};
+		itr = ft_lstnew(now);
+		if (itr == NULL || (ft_lstadd_back(&gnl_lst, itr), 0))
+			return (gnl_del(now), ft_lstclear(&gnl_lst, (t_free)gnl_del), NULL);
+	}
+	now = itr->content;
+	line = get_next_line2(fd, &now->carry_up);
+	if (line == NULL && itr == gnl_lst)
+		gnl_lst = gnl_lst->next;
+	(line == NULL && (ft_lstdelone(itr, (t_free)gnl_del), 0));
+	(errno != 0 && (ft_lstclear(&gnl_lst, (t_free)gnl_del), 0));
+	return (line);
+}
+
+void	gnl_del(t_gnl_node *node)
+{
+	if (node == NULL)
+		return ;
+	free(node->carry_up);
+	free(node);
 }
 
 /**
